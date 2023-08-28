@@ -40,6 +40,7 @@ h1 {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  /* background-color: red; */
 }
 .answerChoice {
   background-color: var(--cream);
@@ -51,6 +52,12 @@ h1 {
   border: solid --brown 1px;
   cursor: pointer;
 }
+.nextContainer {
+    display: flex;
+    flex-direction: row-reverse;
+    /* background-color: red; */
+    width: 90%;
+}
 .next {
     background-color: var(--brown);
     color: white;
@@ -60,4 +67,6 @@ h1 {
     font-weight: bold;
     cursor: pointer;
     border: none;
+    margin-top: 20px;
+    /* margin-right: 40px; */
 }
