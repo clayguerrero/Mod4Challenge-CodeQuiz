@@ -6,6 +6,7 @@ let choice = document.querySelectorAll(".answerChoice")
 let nextContainer = document.querySelector(".nextContainer")
 let nextButton = document.querySelector(".next")
 
-choice.forEach((option) => {
-    option.style.backgroundColor = 'red'
-});
+let curr = 0;
+let score = 0;
+
+
