@@ -20,10 +20,23 @@ body {
   border-radius: 8px;
   padding: 30px;
 }
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 h1 {
   color: var(--brown);
   padding-bottom: 20px;
   margin-bottom: 20px;
+  margin-right: 12px;
+}
+.numContainer {
+  display: flex;
+  color: var(--brown);
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  margin-left: 12px;
 }
 
 .quiz {
@@ -53,20 +66,20 @@ h1 {
   cursor: pointer;
 }
 .nextContainer {
-    display: flex;
-    flex-direction: row-reverse;
-    /* background-color: red; */
-    width: 90%;
+  display: flex;
+  flex-direction: row-reverse;
+  /* background-color: red; */
+  width: 90%;
 }
 .next {
-    background-color: var(--brown);
-    color: white;
-    width: 80px;
-    height: 36px;
-    border-radius: 8px;
-    font-weight: bold;
-    cursor: pointer;
-    border: none;
-    margin-top: 20px;
-    /* margin-right: 40px; */
+  background-color: var(--brown);
+  color: white;
+  width: 80px;
+  height: 36px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  margin-top: 20px;
+  /* margin-right: 40px; */
 }
