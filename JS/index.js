@@ -3,11 +3,15 @@ let quiz = document.querySelector(".quiz");
 let question = document.querySelector(".question");
 let answers = document.querySelector(".answers");
 let choice = document.querySelectorAll(".answerChoice");
-let nextContainer = document.querySelector(".nextContainer");
+let btnContainer = document.querySelector(".btnContainer");
 let nextButton = document.querySelector(".next");
+let restartButton = document.querySelector(".restart");
+let boardButton = document.querySelector(".board");
 let btn = document.createElement("button");
-let scoreNum = document.querySelector('.score')
-let numCont = document.querySelector('.numContainer')
+let scoreNum = document.querySelector(".score");
+let numCont = document.querySelector(".numContainer");
+let addName = document.querySelector('.formBtn')
+let form = document.querySelector('.inputForm')
 
 let curr = 0;
 let score = 0;
@@ -34,52 +38,54 @@ const questions = [
       },
     ],
   },
-  {
-    question: "question2 ",
-    answers: [
-      { text: "a", correct: true },
-      { text: "b", correct: false },
-      { text: "c", correct: false },
-      { text: "d", correct: false },
-    ],
-  },
-  {
-    question: "question3 ",
-    answers: [
-      { text: "a", correct: false },
-      { text: "b", correct: false },
-      { text: "c", correct: true },
-      { text: "d", correct: false },
-    ],
-  },
-  {
-    question: "question4 ",
-    answers: [
-      { text: "a", correct: true },
-      { text: "b", correct: true },
-      { text: "c", correct: false },
-      { text: "d", correct: false },
-    ],
-  },
+  // {
+  //   question: "question2 ",
+  //   answers: [
+  //     { text: "a", correct: true },
+  //     { text: "b", correct: false },
+  //     { text: "c", correct: false },
+  //     { text: "d", correct: false },
+  //   ],
+  // },
+  // {
+  //   question: "question3 ",
+  //   answers: [
+  //     { text: "a", correct: false },
+  //     { text: "b", correct: false },
+  //     { text: "c", correct: true },
+  //     { text: "d", correct: false },
+  //   ],
+  // },
+  // {
+  //   question: "question4 ",
+  //   answers: [
+  //     { text: "a", correct: true },
+  //     { text: "b", correct: true },
+  //     { text: "c", correct: false },
+  //     { text: "d", correct: false },
+  //   ],
+  // },
 ];
 
 function startQuiz() {
   curr = 0;
   score = 0;
+  scoreNum.textContent = score;
 
-  // nextButton.style.display = "none";
   displayQuestion();
 }
 
 function displayQuestion() {
   let currentQuestion = questions[curr].question;
-  // console.log(currentQuestion)
   let questionNum = curr + 1;
-  // console.log('question number ', questionNum)
   nextButton.style.display = "none";
+  restartButton.style.display = "none";
+  boardButton.style.display = "none";
+  form.style.display = 'none'
+
+
   question.textContent = `${questionNum}) ${currentQuestion} `;
 
-  // console.log(questions[curr].answers)
   questions[curr].answers.forEach((answer) => {
     btn = document.createElement("button");
     btn.textContent = answer.text;
@@ -87,46 +93,66 @@ function displayQuestion() {
     answers.appendChild(btn);
 
     btn.dataset.correct = answer.correct;
-    // console.log(btn, btn.dataset.correct);
-    // console.log(btn.classList)
     btn.addEventListener("click", select);
   });
 }
 
 function select(e) {
   let selected = e.target;
-  // scoreNum.innerHTML = score
 
   if (selected.dataset.correct === "true") {
-    // console.log("u got it");
     score += 25;
-    scoreNum.textContent = score
+    scoreNum.textContent = score;
     selected.style.backgroundColor = "green";
     nextButton.style.justifyContent = "center";
     nextButton.style.alignItems = "center";
     nextButton.style.display = "flex";
   } else if (selected.dataset.correct === "false") {
-    // console.log("nope");
     score -= 5;
-    scoreNum.textContent = score
+    scoreNum.textContent = score;
     selected.style.backgroundColor = "red";
   }
 
   nextButton.addEventListener("click", nextQuestion);
+  console.log(curr);
 }
 
 function nextQuestion() {
-  // console.log(questions[curr]);
   if (curr < questions.length) {
     resetAnswers();
-    displayQuestion((curr ++));
-  } else startQuiz();
+    displayQuestion(curr++);
+  }
 }
 
 function resetAnswers() {
   while (answers.firstChild) {
-    answers.removeChild(answers.firstChild)
+    answers.removeChild(answers.firstChild);
   }
+  finalScore();
+}
+
+function finalScore() {
+  question.textContent = `Your score is ${score}.`;
+  boardButton.style.justifyContent = "center";
+  boardButton.style.alignItems = "center";
+  boardButton.style.display = "flex";
+  boardButton.addEventListener("click", leaderBoard);
+  nextButton.style.display = "none";
+}
+
+function leaderBoard() {
+  question.textContent = "Leaderboard";
+  // question.appendChild('ul')
+  // let list = document.querySelector('ul')
+
+  form.style.display = 'flex'
+  form.style.backgroundColor = 'red'
+
+  restartButton.style.justifyContent = "center";
+  restartButton.style.alignItems = "center";
+  restartButton.style.display = "flex";
+  boardButton.style.display = "none";
+  restartButton.addEventListener("click", startQuiz);
 }
 
 startQuiz();
