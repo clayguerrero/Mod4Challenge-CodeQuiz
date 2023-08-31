@@ -15,11 +15,13 @@ let form = document.querySelector(".inputForm");
 let userInput = document.querySelector(".input");
 let list = document.querySelector(".list");
 let start = document.querySelector(".start");
+let timerCont = document.querySelector(".timer");
 
 let curr = 0;
 let score = 0;
 let userScores = [];
 let called = false;
+let timeLeft = 60;
 
 const questions = [
   {
@@ -82,7 +84,7 @@ function startQuiz() {
   form.style.display = "none";
   list.style.display = "none";
   question.textContent = "";
-  form.reset()
+  form.reset();
   // console.log(localStorage);
   // called = false;
 
@@ -98,10 +100,11 @@ function startQuiz() {
 function displayQuestion() {
   let currentQuestion = questions[curr].question;
   let questionNum = curr + 1;
+  timeLeft = 60;
   start.style.display = "none";
 
+  countdown();
   question.textContent = `${questionNum}) ${currentQuestion} `;
-
   questions[curr].answers.forEach((answer) => {
     btn = document.createElement("button");
     btn.textContent = answer.text;
@@ -111,6 +114,25 @@ function displayQuestion() {
     btn.dataset.correct = answer.correct;
     btn.addEventListener("click", select);
   });
+}
+
+function countdown() {
+  let seconds = setInterval(function () {
+    if (timeLeft > 0) {
+      timerCont.textContent = `${timeLeft} seconds`;
+      timeLeft--;
+    } else {
+      stopTime();
+    }
+  }, 1000);
+}
+
+function stopTime() {
+  timerCont.textContent = "";
+  clearInterval(countdown)
+  resetAnswers()
+
+
 }
 
 function select(e) {
@@ -125,6 +147,7 @@ function select(e) {
     nextButton.style.display = "flex";
   } else if (selected.dataset.correct === "false") {
     score -= 5;
+    timeLeft = timeLeft -= 10;
     scoreNum.textContent = score;
     selected.style.backgroundColor = "red";
   }
@@ -144,7 +167,8 @@ function resetAnswers() {
   while (answers.firstChild) {
     answers.removeChild(answers.firstChild);
   }
-  finalScore();
+  clearInterval(countdown)
+  finalScore()
 }
 
 function finalScore() {
@@ -152,8 +176,14 @@ function finalScore() {
   boardButton.style.justifyContent = "center";
   boardButton.style.alignItems = "center";
   boardButton.style.display = "flex";
+  console.log('hello ')
   boardButton.addEventListener("click", leaderBoard);
   nextButton.style.display = "none";
+
+  if (timeLeft <= 0) {
+    answers.removeChild(answers.firstChild);
+    boardButton.style.display = "none";
+  }
 }
 
 function leaderBoard() {
@@ -164,6 +194,7 @@ function leaderBoard() {
   boardButton.style.display = "none";
 
   if (called === false) {
+    boardButton.style.display = "none";
     addName.addEventListener("click", function (e) {
       e.preventDefault();
       let newItem = document.createElement("li");
@@ -175,7 +206,6 @@ function leaderBoard() {
       restartButton.style.justifyContent = "center";
       restartButton.style.alignItems = "center";
       restartButton.style.display = "flex";
-      boardButton.style.display = "none";
       restartButton.addEventListener("click", startQuiz);
       called = true;
     });
