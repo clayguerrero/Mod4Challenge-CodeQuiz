@@ -111,7 +111,10 @@ function displayQuestion() {
     btn.dataset.correct = answer.correct;
     btn.addEventListener("click", select);
   });
-  btnContainer.removeChild(boardButton)
+
+  if (btnContainer.children[0] === boardButton) {
+      btnContainer.removeChild(boardButton)
+  }
 }
 
 // function countdown() {
