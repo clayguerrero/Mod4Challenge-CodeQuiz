@@ -10,11 +10,15 @@ let boardButton = document.querySelector(".board");
 let btn = document.createElement("button");
 let scoreNum = document.querySelector(".score");
 let numCont = document.querySelector(".numContainer");
-let addName = document.querySelector('.formBtn')
-let form = document.querySelector('.inputForm')
+let addName = document.querySelector(".formBtn");
+let form = document.querySelector(".inputForm");
+let userInput = document.querySelector(".input");
+let list = document.querySelector(".list");
 
 let curr = 0;
 let score = 0;
+let userScores = [];
+let called = false;
 
 const questions = [
   {
@@ -81,8 +85,7 @@ function displayQuestion() {
   nextButton.style.display = "none";
   restartButton.style.display = "none";
   boardButton.style.display = "none";
-  form.style.display = 'none'
-
+  form.style.display = "none";
 
   question.textContent = `${questionNum}) ${currentQuestion} `;
 
@@ -142,17 +145,35 @@ function finalScore() {
 
 function leaderBoard() {
   question.textContent = "Leaderboard";
-  // question.appendChild('ul')
-  // let list = document.querySelector('ul')
+  form.style.display = "flex";
+  form.style.backgroundColor = "red";
+  //added this to create leaderboard no work yet
 
-  form.style.display = 'flex'
-  form.style.backgroundColor = 'red'
+  if (called === false) {
+    addName.addEventListener("click", function (e) {
+      e.preventDefault();
+      let newItem = document.createElement("li");
+      // console.log(userInput.value)
+      newItem.textContent = userInput.value;
+      list.appendChild(newItem);
+      addToLocal();
 
-  restartButton.style.justifyContent = "center";
-  restartButton.style.alignItems = "center";
-  restartButton.style.display = "flex";
-  boardButton.style.display = "none";
-  restartButton.addEventListener("click", startQuiz);
+      restartButton.style.justifyContent = "center";
+      restartButton.style.alignItems = "center";
+      restartButton.style.display = "flex";
+      boardButton.style.display = "none";
+      restartButton.addEventListener("click", startQuiz);
+      called = true
+    });
+
+  } else return
+
 }
+
+function addToLocal() {
+    localStorage.setItem("user", userInput.value);
+}
+
+//////////////////////////////////////////////////////////////////////
 
 startQuiz();
