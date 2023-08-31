@@ -47,30 +47,30 @@ const questions = [
     ],
   },
   {
-    question: "question2 ",
+    question: "Which means equal and value and in type? ",
     answers: [
-      { text: "a", correct: true },
-      { text: "b", correct: false },
-      { text: "c", correct: false },
-      { text: "d", correct: false },
+      { text: "===", correct: true },
+      { text: "=", correct: false },
+      { text: "==", correct: false },
+      { text: "||", correct: false },
     ],
   },
   {
-    question: "question3 ",
+    question: "Which method removes from the end of an array",
     answers: [
-      { text: "a", correct: false },
-      { text: "b", correct: false },
-      { text: "c", correct: true },
-      { text: "d", correct: false },
+      { text: ".pop", correct: false },
+      { text: ".unshift()", correct: false },
+      { text: ".pop()", correct: true },
+      { text: ".unshift", correct: false },
     ],
   },
   {
-    question: "question4 ",
+    question: "Which of these is an Object",
     answers: [
-      { text: "a", correct: true },
-      { text: "b", correct: true },
-      { text: "c", correct: false },
-      { text: "d", correct: false },
+      { text: "{}", correct: true },
+      { text: "[]", correct: true },
+      { text: "''", correct: false },
+      { text: "()", correct: false },
     ],
   },
 ];
@@ -136,12 +136,6 @@ function countdown() {
   }, 1000);
 }
 
-// function stopTime() {
-//   timeup = true;
-//   clearInterval(countdown);
-//   timerCont.textContent = "";
-// }
-
 function select(e) {
   let selected = e.target;
   btnContainer.appendChild(nextButton);
@@ -188,7 +182,6 @@ function leaderBoard() {
   form.appendChild(userInput);
   form.appendChild(addName);
   btnContainer.removeChild(boardButton);
-  // form.style.backgroundColor = "red";
 
   if (called === false) {
     addName.addEventListener("click", function (e) {
