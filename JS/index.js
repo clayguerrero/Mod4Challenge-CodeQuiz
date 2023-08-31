@@ -82,7 +82,8 @@ function startQuiz() {
   form.style.display = "none";
   list.style.display = "none";
   question.textContent = "";
-  console.log(localStorage);
+  form.reset()
+  // console.log(localStorage);
   // called = false;
 
   start.style.justifyContent = "center";
