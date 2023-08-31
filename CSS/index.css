@@ -87,7 +87,7 @@ input::placeholder {
   /* background-color: red; */
   width: 100%;
 }
-.next, .restart, .board, .formBtn {
+.start, .next, .restart, .board, .formBtn {
   background-color: var(--brown);
   color: white;
   width: 80px;

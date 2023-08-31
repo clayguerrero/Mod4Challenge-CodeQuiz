@@ -14,6 +14,7 @@ let addName = document.querySelector(".formBtn");
 let form = document.querySelector(".inputForm");
 let userInput = document.querySelector(".input");
 let list = document.querySelector(".list");
+let start = document.querySelector(".start");
 
 let curr = 0;
 let score = 0;
@@ -75,18 +76,26 @@ function startQuiz() {
   curr = 0;
   score = 0;
   scoreNum.textContent = score;
+  nextButton.style.display = "none";
+  restartButton.style.display = "none";
+  boardButton.style.display = "none";
+  form.style.display = "none";
+  list.style.display = "none";
+  question.textContent = '';
 
-  displayQuestion();
+  start.style.justifyContent = "center";
+  start.style.alignItems = "center";
+  start.style.display = "flex";
+
+  start.addEventListener("click", displayQuestion);
+
+  // displayQuestion();
 }
 
 function displayQuestion() {
   let currentQuestion = questions[curr].question;
   let questionNum = curr + 1;
-  nextButton.style.display = "none";
-  restartButton.style.display = "none";
-  boardButton.style.display = "none";
-  form.style.display = "none";
-  list.style.display = 'none';
+  start.style.display = "none";
 
   question.textContent = `${questionNum}) ${currentQuestion} `;
 
@@ -147,35 +156,30 @@ function finalScore() {
 function leaderBoard() {
   question.textContent = "Leaderboard";
   form.style.display = "flex";
-  list.style.display= 'block'
-  form.style.backgroundColor = "red";
-  //added this to create leaderboard no work yet
+  list.style.display = "block";
+  boardButton.style.display = "none";
 
   if (called === false) {
     addName.addEventListener("click", function (e) {
       e.preventDefault();
       let newItem = document.createElement("li");
-      // console.log(userInput.value)
       newItem.textContent = `${userInput.value}:  ${score}`;
       list.appendChild(newItem);
       addToLocal();
+      addName.style.display = 'none'
 
       restartButton.style.justifyContent = "center";
       restartButton.style.alignItems = "center";
       restartButton.style.display = "flex";
       boardButton.style.display = "none";
       restartButton.addEventListener("click", startQuiz);
-      called = true
+      called = true;
     });
-
-  } else return
-
+  } else startQuiz();
 }
 
 function addToLocal() {
-    localStorage.setItem("user", userInput.value);
+  localStorage.setItem("user", userInput.value);
 }
-
-//////////////////////////////////////////////////////////////////////
 
 startQuiz();
