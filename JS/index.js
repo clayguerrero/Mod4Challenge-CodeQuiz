@@ -86,6 +86,7 @@ function displayQuestion() {
   restartButton.style.display = "none";
   boardButton.style.display = "none";
   form.style.display = "none";
+  list.style.display = 'none';
 
   question.textContent = `${questionNum}) ${currentQuestion} `;
 
@@ -146,6 +147,7 @@ function finalScore() {
 function leaderBoard() {
   question.textContent = "Leaderboard";
   form.style.display = "flex";
+  list.style.display= 'block'
   form.style.backgroundColor = "red";
   //added this to create leaderboard no work yet
 
@@ -154,7 +156,7 @@ function leaderBoard() {
       e.preventDefault();
       let newItem = document.createElement("li");
       // console.log(userInput.value)
-      newItem.textContent = userInput.value;
+      newItem.textContent = `${userInput.value}:  ${score}`;
       list.appendChild(newItem);
       addToLocal();
 
