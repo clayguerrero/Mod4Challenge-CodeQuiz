@@ -22,7 +22,6 @@ let curr = 0;
 let score = 0;
 let userScores = [];
 let called = false;
-let timeLeft = 60;
 let timeup = false;
 
 const questions = [
@@ -80,8 +79,7 @@ function startQuiz() {
   curr = 0;
   score = 0;
   scoreNum.textContent = score;
-
-  timeLeft = 60;
+  timeLeft = 60
   btnContainer.appendChild(nextButton);
   btnContainer.removeChild(nextButton);
   btnContainer.removeChild(restartButton);
@@ -93,7 +91,7 @@ function startQuiz() {
   form.reset();
   startPage.appendChild(start);
   start.addEventListener("click", displayQuestion);
-  start.addEventListener('click', countdown)
+  start.addEventListener("click", countdown);
 }
 
 function displayQuestion() {
@@ -103,7 +101,6 @@ function displayQuestion() {
     startPage.removeChild(start);
   }
 
-  // countdown();
   question.textContent = `${questionNum}) ${currentQuestion} `;
   questions[curr].answers.forEach((answer) => {
     btn = document.createElement("button");
@@ -114,7 +111,10 @@ function displayQuestion() {
     btn.addEventListener("click", select);
   });
 
-  if (btnContainer.children[0] === boardButton) {
+  if (
+    btnContainer.children[0] === boardButton ||
+    btnContainer.children[1] === boardButton
+  ) {
     btnContainer.removeChild(boardButton);
   }
 }
@@ -124,38 +124,28 @@ function countdown() {
     if (timeLeft > 0) {
       timerCont.textContent = `${timeLeft} seconds`;
       timeLeft--;
-    } else if (timeLeft <= 0 && timeup === false)  {
-      stopTime();
-      btnContainer.appendChild(nextButton);
-      btnContainer.removeChild(nextButton);
-      resetAnswers();
+      console.log(timeLeft);
+    } else {
+      console.log(timeLeft)
+      clearInterval(seconds);
+      timerCont.textContent = ''
+      while (answers.firstChild) {
+        answers.removeChild(answers.firstChild);
+      }
+      finalScore();
     }
   }, 1000);
 }
 
-function stopTime() {
-  timeup = true;
-  clearInterval(countdown);
-  timerCont.textContent = "";
-
-  // while (answers.firstChild) {
-  //   answers.removeChild(answers.firstChild);
-  // }
-
-  // question.textContent = `Your score is ${score}.`;
-  // btnContainer.appendChild(boardButton);
-  // btnContainer.appendChild(nextButton);
-  // btnContainer.removeChild(nextButton);
-
-  // boardButton.addEventListener("click", leaderBoard);
-
-  // btnContainer.removeChild(boardButton)
-}
+// function stopTime() {
+//   timeup = true;
+//   clearInterval(countdown);
+//   timerCont.textContent = "";
+// }
 
 function select(e) {
   let selected = e.target;
   btnContainer.appendChild(nextButton);
-
   if (selected.dataset.correct === "true") {
     score += 25;
     scoreNum.textContent = score;
@@ -167,9 +157,7 @@ function select(e) {
     scoreNum.textContent = score;
     selected.style.backgroundColor = "red";
   }
-
   nextButton.addEventListener("click", nextQuestion);
-  // console.log(curr);
 }
 
 function nextQuestion() {
@@ -183,28 +171,15 @@ function resetAnswers() {
   while (answers.firstChild) {
     answers.removeChild(answers.firstChild);
   }
-  // clearInterval(countdown)
   finalScore();
-  //clear int doesnt work
 }
 
 function finalScore() {
   question.textContent = `Your score is ${score}.`;
   btnContainer.appendChild(boardButton);
+  btnContainer.appendChild(nextButton)
+  btnContainer.removeChild(nextButton);
   boardButton.addEventListener("click", leaderBoard);
-
-  // if (btnContainer.children[1] === boardButton) {
-  //   btnContainer.removeChild(boardButton);
-  // }
-
-  // btnContainer.removeChild(nextButton);
-  // if (timeLeft <= 0 && btnContainer.firstChild === nextButton) {
-  //   console.log(btnContainer.children)
-  //   btnContainer.removeChild(nextButton)
-  //   // answers.removeChild(answers.firstChild);
-  //   // btnContainer.removeChild(boardButton)
-  //   // boardButton.style.display = "none";
-  // }
 }
 
 function leaderBoard() {
@@ -213,13 +188,12 @@ function leaderBoard() {
   quiz.appendChild(form);
   form.appendChild(userInput);
   form.appendChild(addName);
-  btnContainer.removeChild(boardButton)
+  btnContainer.removeChild(boardButton);
   // form.style.backgroundColor = "red";
 
   if (called === false) {
     addName.addEventListener("click", function (e) {
       e.preventDefault();
-      // btnContainer.removeChild(boardButton);
       form.removeChild(userInput);
       form.removeChild(addName);
       let newItem = document.createElement("li");
