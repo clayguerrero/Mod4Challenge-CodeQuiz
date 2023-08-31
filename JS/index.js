@@ -80,6 +80,7 @@ function startQuiz() {
   score = 0;
   scoreNum.textContent = score;
   timeLeft = 60
+  timerCont.textContent = ''
   btnContainer.appendChild(nextButton);
   btnContainer.removeChild(nextButton);
   btnContainer.removeChild(restartButton);
@@ -124,9 +125,7 @@ function countdown() {
     if (timeLeft > 0) {
       timerCont.textContent = `${timeLeft} seconds`;
       timeLeft--;
-      console.log(timeLeft);
     } else {
-      console.log(timeLeft)
       clearInterval(seconds);
       timerCont.textContent = ''
       while (answers.firstChild) {
