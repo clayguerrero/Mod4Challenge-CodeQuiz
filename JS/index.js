@@ -81,7 +81,9 @@ function startQuiz() {
   boardButton.style.display = "none";
   form.style.display = "none";
   list.style.display = "none";
-  question.textContent = '';
+  question.textContent = "";
+  console.log(localStorage);
+  // called = false;
 
   start.style.justifyContent = "center";
   start.style.alignItems = "center";
@@ -155,6 +157,7 @@ function finalScore() {
 
 function leaderBoard() {
   question.textContent = "Leaderboard";
+  // question.style.backgroundColor = 'red'
   form.style.display = "flex";
   list.style.display = "block";
   boardButton.style.display = "none";
@@ -166,7 +169,7 @@ function leaderBoard() {
       newItem.textContent = `${userInput.value}:  ${score}`;
       list.appendChild(newItem);
       addToLocal();
-      addName.style.display = 'none'
+      addName.style.display = "none";
 
       restartButton.style.justifyContent = "center";
       restartButton.style.alignItems = "center";
@@ -175,7 +178,21 @@ function leaderBoard() {
       restartButton.addEventListener("click", startQuiz);
       called = true;
     });
-  } else startQuiz();
+  } else {
+    restartButton.style.display = "none";
+    addName.style.justifyContent = "center";
+    addName.style.alignItems = "center";
+    addName.style.display = "flex";
+    addName.addEventListener("click", function (e) {
+      e.preventDefault();
+      restartButton.style.justifyContent = "center";
+      restartButton.style.alignItems = "center";
+      restartButton.style.display = "flex";
+    });
+
+    boardButton.style.display = "none";
+    restartButton.addEventListener("click", startQuiz);
+  }
 }
 
 function addToLocal() {
