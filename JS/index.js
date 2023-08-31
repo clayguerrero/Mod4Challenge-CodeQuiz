@@ -15,6 +15,7 @@ let form = document.querySelector(".inputForm");
 let userInput = document.querySelector(".input");
 let list = document.querySelector(".list");
 let start = document.querySelector(".start");
+let startPage = document.querySelector(".startPage");
 let timerCont = document.querySelector(".timer");
 
 let curr = 0;
@@ -45,106 +46,100 @@ const questions = [
       },
     ],
   },
-  // {
-  //   question: "question2 ",
-  //   answers: [
-  //     { text: "a", correct: true },
-  //     { text: "b", correct: false },
-  //     { text: "c", correct: false },
-  //     { text: "d", correct: false },
-  //   ],
-  // },
-  // {
-  //   question: "question3 ",
-  //   answers: [
-  //     { text: "a", correct: false },
-  //     { text: "b", correct: false },
-  //     { text: "c", correct: true },
-  //     { text: "d", correct: false },
-  //   ],
-  // },
-  // {
-  //   question: "question4 ",
-  //   answers: [
-  //     { text: "a", correct: true },
-  //     { text: "b", correct: true },
-  //     { text: "c", correct: false },
-  //     { text: "d", correct: false },
-  //   ],
-  // },
+  {
+    question: "question2 ",
+    answers: [
+      { text: "a", correct: true },
+      { text: "b", correct: false },
+      { text: "c", correct: false },
+      { text: "d", correct: false },
+    ],
+  },
+  {
+    question: "question3 ",
+    answers: [
+      { text: "a", correct: false },
+      { text: "b", correct: false },
+      { text: "c", correct: true },
+      { text: "d", correct: false },
+    ],
+  },
+  {
+    question: "question4 ",
+    answers: [
+      { text: "a", correct: true },
+      { text: "b", correct: true },
+      { text: "c", correct: false },
+      { text: "d", correct: false },
+    ],
+  },
 ];
 
 function startQuiz() {
   curr = 0;
   score = 0;
   scoreNum.textContent = score;
-  nextButton.style.display = "none";
-  restartButton.style.display = "none";
-  boardButton.style.display = "none";
-  form.style.display = "none";
-  list.style.display = "none";
+
+  btnContainer.appendChild(nextButton);
+  btnContainer.removeChild(nextButton);
+  btnContainer.removeChild(restartButton);
+  btnContainer.appendChild(boardButton);
+  btnContainer.removeChild(boardButton);
+  quiz.removeChild(list);
+  quiz.removeChild(form);
   question.textContent = "";
   form.reset();
-  // console.log(localStorage);
-  // called = false;
-
-  start.style.justifyContent = "center";
-  start.style.alignItems = "center";
-  start.style.display = "flex";
-
+  startPage.appendChild(start);
   start.addEventListener("click", displayQuestion);
-
-  // displayQuestion();
 }
 
 function displayQuestion() {
   let currentQuestion = questions[curr].question;
   let questionNum = curr + 1;
   timeLeft = 60;
-  start.style.display = "none";
+  if (startPage.children.length === 1) {
+    startPage.removeChild(start);
+  }
 
-  countdown();
+  // countdown();
   question.textContent = `${questionNum}) ${currentQuestion} `;
   questions[curr].answers.forEach((answer) => {
     btn = document.createElement("button");
     btn.textContent = answer.text;
     btn.classList.add("answerChoice");
     answers.appendChild(btn);
-
     btn.dataset.correct = answer.correct;
     btn.addEventListener("click", select);
   });
+  btnContainer.removeChild(boardButton)
 }
 
-function countdown() {
-  let seconds = setInterval(function () {
-    if (timeLeft > 0) {
-      timerCont.textContent = `${timeLeft} seconds`;
-      timeLeft--;
-    } else {
-      stopTime();
-    }
-  }, 1000);
-}
+// function countdown() {
+//   let seconds = setInterval(function () {
+//     if (timeLeft > 0) {
+//       timerCont.textContent = `${timeLeft} seconds`;
+//       timeLeft--;
+//     } else {
+//       stopTime();
+//     }
+//   }, 1000);
+// }
 
-function stopTime() {
-  timerCont.textContent = "";
-  clearInterval(countdown)
-  resetAnswers()
-
-
-}
+// function stopTime() {
+//   timerCont.textContent = "";
+//   clearInterval(countdown)
+//   resetAnswers()
+// }
 
 function select(e) {
   let selected = e.target;
+  btnContainer.appendChild(nextButton);
 
   if (selected.dataset.correct === "true") {
     score += 25;
     scoreNum.textContent = score;
     selected.style.backgroundColor = "green";
-    nextButton.style.justifyContent = "center";
-    nextButton.style.alignItems = "center";
-    nextButton.style.display = "flex";
+    btnContainer.appendChild(nextButton);
   } else if (selected.dataset.correct === "false") {
     score -= 5;
     timeLeft = timeLeft -= 10;
@@ -153,7 +148,7 @@ function select(e) {
   }
 
   nextButton.addEventListener("click", nextQuestion);
-  console.log(curr);
+  // console.log(curr);
 }
 
 function nextQuestion() {
@@ -167,19 +162,16 @@ function resetAnswers() {
   while (answers.firstChild) {
     answers.removeChild(answers.firstChild);
   }
-  clearInterval(countdown)
-  finalScore()
+  // clearInterval(countdown)
+  finalScore();
+  //clear int doesnt work
 }
 
 function finalScore() {
   question.textContent = `Your score is ${score}.`;
-  boardButton.style.justifyContent = "center";
-  boardButton.style.alignItems = "center";
-  boardButton.style.display = "flex";
-  console.log('hello ')
+  btnContainer.appendChild(boardButton);
   boardButton.addEventListener("click", leaderBoard);
-  nextButton.style.display = "none";
-
+  btnContainer.removeChild(nextButton);
   if (timeLeft <= 0) {
     answers.removeChild(answers.firstChild);
     boardButton.style.display = "none";
@@ -188,41 +180,26 @@ function finalScore() {
 
 function leaderBoard() {
   question.textContent = "Leaderboard";
-  // question.style.backgroundColor = 'red'
-  form.style.display = "flex";
-  list.style.display = "block";
-  boardButton.style.display = "none";
+  quiz.insertBefore(list, btnContainer);
+  quiz.appendChild(form);
+  form.appendChild(userInput);
+  form.appendChild(addName);
+  form.style.backgroundColor = "red";
+  btnContainer.removeChild(boardButton);
 
   if (called === false) {
-    boardButton.style.display = "none";
     addName.addEventListener("click", function (e) {
       e.preventDefault();
+      form.removeChild(userInput);
+      form.removeChild(addName);
       let newItem = document.createElement("li");
       newItem.textContent = `${userInput.value}:  ${score}`;
       list.appendChild(newItem);
       addToLocal();
-      addName.style.display = "none";
-
-      restartButton.style.justifyContent = "center";
-      restartButton.style.alignItems = "center";
-      restartButton.style.display = "flex";
+      btnContainer.appendChild(restartButton);
       restartButton.addEventListener("click", startQuiz);
       called = true;
     });
-  } else {
-    restartButton.style.display = "none";
-    addName.style.justifyContent = "center";
-    addName.style.alignItems = "center";
-    addName.style.display = "flex";
-    addName.addEventListener("click", function (e) {
-      e.preventDefault();
-      restartButton.style.justifyContent = "center";
-      restartButton.style.alignItems = "center";
-      restartButton.style.display = "flex";
-    });
-
-    boardButton.style.display = "none";
-    restartButton.addEventListener("click", startQuiz);
   }
 }
 
